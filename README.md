@@ -6,14 +6,7 @@ Landing profesional para G&L Refrigeración (App Router + Tailwind + shadcn/ui +
 - Node 18+
 - pnpm (recomendado)
 
-## Configuración
-1. Copiar `.env.example` a `.env.local` y completar:
-```
-ADMIN_PASS="cambiar-por-uno-seguro"
-NEXT_PUBLIC_WHATSAPP="549XXXXXXXXXX"
-RESEND_API_KEY=""
-FORMSPREE_ENDPOINT=""
-```
+
 2. Instalar deps:
 ```
 pnpm i
