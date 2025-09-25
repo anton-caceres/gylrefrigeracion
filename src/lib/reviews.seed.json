@@ -1,0 +1,26 @@
+[
+  {
+    "id": "seed-1",
+    "name": "María A.",
+    "rating": 5,
+    "comment": "Instalaron mi aire en el día. Trabajo prolijo y súper amables.",
+    "status": "approved",
+    "createdAt": "2024-07-01T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2",
+    "name": "Gustavo L.",
+    "rating": 5,
+    "comment": "Mantenimiento anual impecable. Noté menos consumo y mejor rendimiento.",
+    "status": "approved",
+    "createdAt": "2024-11-15T12:00:00.000Z"
+  },
+  {
+    "id": "seed-3",
+    "name": "Comercio Centro",
+    "rating": 5,
+    "comment": "Nos resolvieron una urgencia en cámaras de frío. Recomendables.",
+    "status": "approved",
+    "createdAt": "2025-03-10T12:00:00.000Z"
+  }
+]

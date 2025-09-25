@@ -1,0 +1,42 @@
+[
+  {
+    "name": "mayco lopez",
+    "rating": 5,
+    "comment": "Los llame y pudieron solucionar de inmediato",
+    "id": "04896ca6-970f-4831-9c55-12a3ee8fe99d",
+    "status": "approved",
+    "createdAt": "2025-09-25T16:28:35.777Z"
+  },
+  {
+    "name": "Antonella",
+    "rating": 5,
+    "comment": "Super profesionales los chicos, me desinstalaron e instalaron dos aires. Andan re bien",
+    "id": "a36dd361-6120-4cd5-83c8-71028568b8c4",
+    "status": "approved",
+    "createdAt": "2025-09-25T16:05:56.085Z"
+  },
+  {
+    "id": "seed-1",
+    "name": "María A.",
+    "rating": 5,
+    "comment": "Instalaron mi aire en el día. Trabajo prolijo y súper amables.",
+    "status": "approved",
+    "createdAt": "2024-07-01T12:00:00.000Z"
+  },
+  {
+    "id": "seed-2",
+    "name": "Gustavo L.",
+    "rating": 5,
+    "comment": "Mantenimiento anual impecable. Noté menos consumo y mejor rendimiento.",
+    "status": "approved",
+    "createdAt": "2024-11-15T12:00:00.000Z"
+  },
+  {
+    "id": "seed-3",
+    "name": "Comercio Centro",
+    "rating": 5,
+    "comment": "Nos resolvieron una urgencia en cámaras de frío. Recomendables.",
+    "status": "approved",
+    "createdAt": "2025-03-10T12:00:00.000Z"
+  }
+]
