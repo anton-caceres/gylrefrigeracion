@@ -15,7 +15,7 @@ export function Experiencia() {
     <section id="experiencia" className="section">
       <div className="container-narrow">
         <MotionReveal>
-          <h2 className="text-3xl font-bold mb-8">Experiencia</h2>
+          <h2 className="text-3xl font-bold mb-8 heading-accent">Experiencia</h2>
         </MotionReveal>
         <div className="grid md:grid-cols-2 gap-8">
           <MotionReveal>
@@ -33,19 +33,19 @@ export function Experiencia() {
           </MotionReveal>
           <MotionReveal delay={0.1}>
             <div className="grid grid-cols-2 gap-4">
-              <Card className="p-8 text-center transition-transform hover:scale-[1.03] motion-reduce:transform-none">
-                <div className="text-3xl font-extrabold text-primary"><CountUp to={10} prefix="+" /></div>
+              <Card className="p-8 text-center transition-transform hover:scale-[1.06] hover:shadow-xl motion-reduce:transform-none">
+                <div className="text-3xl font-extrabold text-primary"><CountUp to={10} prefix="+" duration={2600} /></div>
                 <div className="text-gray-600">años de experiencia</div>
               </Card>
-              <Card className="p-8 text-center transition-transform hover:scale-[1.03] motion-reduce:transform-none">
-                <div className="text-3xl font-extrabold text-primary"><CountUp to={300} prefix="+" /></div>
+              <Card className="p-8 text-center transition-transform hover:scale-[1.06] hover:shadow-xl motion-reduce:transform-none">
+                <div className="text-3xl font-extrabold text-primary"><CountUp to={300} prefix="+" duration={2400} /></div>
                 <div className="text-gray-600">equipos instalados</div>
               </Card>
-              <Card className="p-8 text-center transition-transform hover:scale-[1.03] motion-reduce:transform-none">
-                <div className="text-3xl font-extrabold text-primary"><CountUp to={500} prefix="+" /></div>
+              <Card className="p-8 text-center transition-transform hover:scale-[1.06] hover:shadow-xl motion-reduce:transform-none">
+                <div className="text-3xl font-extrabold text-primary"><CountUp to={500} prefix="+" duration={2600} /></div>
                 <div className="text-gray-600">mantenimientos</div>
               </Card>
-              <Card className="p-8 text-center transition-transform hover:scale-[1.03] motion-reduce:transform-none">
+              <Card className="p-8 text-center transition-transform hover:scale-[1.06] hover:shadow-xl motion-reduce:transform-none">
                 <div className="text-3xl font-extrabold text-primary">4.9★</div>
                 <div className="text-gray-600">promedio</div>
               </Card>

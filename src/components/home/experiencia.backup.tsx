@@ -27,7 +27,7 @@ export function Experiencia() {
                 <li key={i} className="ms-4">
                   <div className="absolute w-3 h-3 bg-primary rounded-full mt-1.5 -start-1.5 border border-white"></div>
                   <time className="mb-1 text-sm font-semibold text-primary">{t.year}</time>
-                  <p className="text-gray-700">{t.text}</p>
+                  <p className="text-white/80">{t.text}</p>
                 </li>
               ))}
             </ol>

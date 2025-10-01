@@ -1,196 +1,171 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import * as React from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
-import { WHATSAPPS, waLinkFor } from "@/lib/contacts";
-import { MessageCircle, X } from "lucide-react";
+
+type FormState = {
+  nombre: string;
+  email: string;
+  telefono: string;
+  servicio: "instalacion" | "mantenimiento" | "reparacion" | "electricidad" | "otro";
+  mensaje: string;
+  destino: "gustavo" | "luis";
+};
+
+const WA_GUSTAVO = process.env.NEXT_PUBLIC_WA_GUSTAVO || "5493584370092";
+const WA_LUIS    = process.env.NEXT_PUBLIC_WA_LUIS    || "5493584856582";
+
+// Arma el texto para WhatsApp con los datos del form
+function buildWhatsAppText(data: FormState) {
+  const servicioLabel: Record<FormState["servicio"], string> = {
+    instalacion: "Instalación de aire",
+    mantenimiento: "Mantenimiento",
+    reparacion: "Reparación",
+    electricidad: "Electricidad / Certificación ERSEP",
+    otro: "Otro servicio",
+  };
+
+  const lines = [
+    "Hola G&L Refrigeración, quiero solicitar un presupuesto:",
+    "",
+    `• Nombre: ${data.nombre || "-"}`,
+    `• Email: ${data.email || "-"}`,
+    `• Teléfono: ${data.telefono || "-"}`,
+    `• Servicio: ${servicioLabel[data.servicio]}`,
+    "",
+    data.mensaje?.trim() ? `Detalle: ${data.mensaje.trim()}` : "Detalle: -",
+  ];
+
+  return lines.join("\n");
+}
 
 export default function QuoteForm() {
-  const [loading, setLoading] = useState(false);
-  const [waOpen, setWaOpen] = useState(false);
-  const panelRef = useRef<HTMLDivElement>(null);
+  const [sending, setSending] = React.useState(false);
+  const [form, setForm] = React.useState<FormState>({
+    nombre: "",
+    email: "",
+    telefono: "",
+    servicio: "instalacion",
+    mensaje: "",
+    destino: "gustavo",
+  });
 
-  useEffect(() => {
-    function onClickOutside(e: MouseEvent) {
-      if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
-        setWaOpen(false);
-      }
-    }
-    if (waOpen) document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
-  }, [waOpen]);
+  function onChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) {
+    const { name, value } = e.currentTarget;
+    setForm((s) => ({ ...s, [name]: value }));
+  }
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const fd = new FormData(e.currentTarget);
-    const body = Object.fromEntries(fd.entries());
 
-    if (!String(body.name).trim() || !String(body.email).trim() || !String(body.phone).trim()) {
-      toast.error("Completá nombre, email y teléfono.");
-      return;
+    // Validaciones mínimas (UX)
+    if (!form.nombre.trim()) return toast.error("Ingresá tu nombre.");
+    if (!form.telefono.trim()) return toast.error("Ingresá un teléfono.");
+    // email opcional, pero si viene, validamos formato simple
+    if (form.email && !/.+@.+\..+/.test(form.email)) {
+      return toast.error("El email no parece válido.");
     }
 
-    setLoading(true);
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-          ...body,
-          source: "presupuesto",
-          createdAt: new Date().toISOString()
-        })
-      });
-      if (!res.ok) throw new Error();
-      toast.success("¡Listo! Recibimos tu solicitud de presupuesto.");
-      (e.currentTarget as HTMLFormElement).reset();
-    } catch {
-      toast.error("No se pudo enviar. Probá por WhatsApp.");
+      setSending(true);
+
+      const text = buildWhatsAppText(form);
+      const number = form.destino === "luis" ? WA_LUIS : WA_GUSTAVO;
+      const url = `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
+
+      // Abrimos WhatsApp en nueva pestaña (desktop) o app (mobile)
+      window.open(url, "_blank", "noopener,noreferrer");
+
+      toast.success("Abrimos WhatsApp con tu mensaje. ¡Completalo y enviá!");
+    } catch (err) {
+      console.error(err);
+      toast.error("No pudimos abrir WhatsApp. Probá de nuevo.");
     } finally {
-      setLoading(false);
+      setSending(false);
     }
   }
 
   return (
-    <form onSubmit={onSubmit} className="card p-6 space-y-5" aria-labelledby="form-title">
-      <h2 id="form-title" className="text-xl font-bold">Datos para tu presupuesto</h2>
-
+    <form onSubmit={onSubmit} className="grid gap-4 card p-6">
       <div className="grid md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Nombre y apellido</label>
-          <Input name="name" required placeholder="Ej: Antonella Cáceres" />
+          <label htmlFor="nombre" className="block text-sm text-white/80 mb-1">Nombre*</label>
+          <Input
+            id="nombre" name="nombre" value={form.nombre} onChange={onChange}
+            placeholder="Tu nombre"
+            required
+          />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Email</label>
-          <Input name="email" type="email" required placeholder="tu@mail.com" />
+          <label htmlFor="telefono" className="block text-sm text-white/80 mb-1">Teléfono*</label>
+          <Input
+            id="telefono" name="telefono" value={form.telefono} onChange={onChange}
+            placeholder="351..."
+            required
+          />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Teléfono</label>
-          <Input name="phone" type="tel" required placeholder="+54 9 ..." />
+          <label htmlFor="email" className="block text-sm text-white/80 mb-1">Email</label>
+          <Input
+            id="email" name="email" type="email" value={form.email} onChange={onChange}
+            placeholder="tucorreo@example.com"
+          />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Preferencia de contacto</label>
-          <select name="preferred" className="h-10 w-full rounded-xl border border-gray-300 px-3 text-sm">
-            <option value="whatsapp">WhatsApp</option>
-            <option value="llamada">Llamada</option>
-            <option value="email">Email</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">Tipo de servicio</label>
-          <select name="service" className="h-10 w-full rounded-xl border border-gray-300 px-3 text-sm">
-            <option>Instalación de aire</option>
-            <option>Mantenimiento</option>
-            <option>Reparación heladera</option>
-            <option>Freezer / Cámara de frío</option>
-            <option>Certificación ERSEP</option>
-            <option>Otro</option>
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Ubicación (barrio/ciudad)</label>
-          <Input name="location" placeholder="Río Cuarto, barrio ..." />
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">¿Cuándo te gustaría hacerlo?</label>
-          <select name="when" className="h-10 w-full rounded-xl border border-gray-300 px-3 text-sm">
-            <option>Urgente (24-48 hs)</option>
-            <option>Esta semana</option>
-            <option>Este mes</option>
-            <option>Solo pidiendo info</option>
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">Presupuesto estimado</label>
-          <select name="budget" className="h-10 w-full rounded-xl border border-gray-300 px-3 text-sm">
-            <option>Sin definir</option>
-            <option>$0–$100.000</option>
-            <option>$100.000–$300.000</option>
-            <option>$300.000–$600.000</option>
-            <option>$600.000+</option>
+          <label htmlFor="servicio" className="block text-sm text-white/80 mb-1">Servicio</label>
+          <select
+            id="servicio" name="servicio" value={form.servicio} onChange={onChange}
+            className="h-10 w-full rounded-md border border-white/10 bg-transparent px-3 text-white/90"
+          >
+            <option value="instalacion">Instalación de aire</option>
+            <option value="mantenimiento">Mantenimiento</option>
+            <option value="reparacion">Reparación</option>
+            <option value="electricidad">Electricidad / Certificación ERSEP</option>
+            <option value="otro">Otro</option>
           </select>
         </div>
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Descripción</label>
-        <Textarea name="message" required placeholder="Contanos el equipo, marca/modelo, altura, distancia al tomacorriente, etc." />
+        <label htmlFor="mensaje" className="block text-sm text-white/80 mb-1">Detalle</label>
+        <Textarea
+          id="mensaje" name="mensaje" value={form.mensaje} onChange={onChange}
+          placeholder="Contanos marca/modelo, síntomas, dirección aproximada, etc."
+          className="min-h-[120px]"
+        />
       </div>
 
-      <div className="relative">
-        <div className="flex flex-wrap gap-3">
-          <Button type="submit" disabled={loading}>
-            {loading ? "Enviando..." : "Enviar solicitud"}
-          </Button>
-
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => setWaOpen((v) => !v)}
-            aria-expanded={waOpen}
-            aria-controls="wa-panel"
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="destino" className="block text-sm text-white/80 mb-1">Enviar a</label>
+          <select
+            id="destino" name="destino" value={form.destino} onChange={onChange}
+            className="h-10 w-full rounded-md border border-white/10 bg-transparent px-3 text-white/90"
           >
-            <MessageCircle className="w-4 h-4 mr-2" />
-            Prefiero WhatsApp
-          </Button>
+            <option value="gustavo">WhatsApp Gustavo</option>
+            <option value="luis">WhatsApp Luis</option>
+          </select>
+          <p className="text-xs text-white/60 mt-1">Podés elegir a quién enviar el pedido.</p>
         </div>
 
-        {waOpen && (
-          <div
-            id="wa-panel"
-            ref={panelRef}
-            role="dialog"
-            aria-label="Elegir contacto de WhatsApp"
-            className="absolute mt-3 z-20 w-[min(100%,20rem)] card p-3"
+        <div className="self-end">
+          <Button
+            type="submit"
+            disabled={sending}
+            className="btn-gradient text-white h-11 w-full"
           >
-            <div className="flex items-center justify-between mb-2">
-              <div className="font-semibold">Escribir por WhatsApp</div>
-              <button
-                aria-label="Cerrar"
-                onClick={() => setWaOpen(false)}
-                className="p-1 rounded-lg hover:bg-gray-100"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="space-y-2">
-              {WHATSAPPS.map((c) => (
-                <Button
-                  key={c.number}
-                  asChild
-                  className="w-full justify-start"
-                  variant="outline"
-                  onClick={() => setWaOpen(false)}
-                >
-                  <a
-                    href={waLinkFor(
-                      c.number,
-                      `Hola ${c.name}, quisiera un presupuesto de G&L Refrigeración`
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <MessageCircle className="w-4 h-4 mr-2" />
-                    {c.name}
-                  </a>
-                </Button>
-              ))}
-            </div>
-          </div>
-        )}
+            {sending ? "Abriendo WhatsApp..." : "Enviar por WhatsApp"}
+          </Button>
+        </div>
       </div>
 
-      <p className="text-xs text-gray-500">
-        Protegemos tus datos. Solo los usamos para contactarte por tu solicitud.
+      <p className="text-xs text-white/60">
+        Tus datos son confidenciales. Solo los usamos para responder tu consulta.
       </p>
     </form>
   );

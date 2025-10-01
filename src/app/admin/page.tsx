@@ -53,7 +53,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between">
               <div>
                 <div className="font-semibold">{r.name} — {r.rating}/5</div>
-                <div className="text-gray-700">{r.comment}</div>
+                <div className="text-white/80">{r.comment}</div>
               </div>
               <div className="flex gap-2">
                 <Button onClick={()=>act(r.id,"approved")}>Aprobar</Button>

@@ -2,64 +2,106 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --bg: #ffffff;
-  --fg: #0a0a0a;
-}
+/* ===== Dark tokens ===== */
+:root { --bg: #0b1626; --fg: #e6edf3; }
 
 html { scroll-behavior: smooth; }
-body {
-  @apply bg-white text-gray-900 antialiased;
+body { background: var(--bg); color: var(--fg); @apply antialiased; }
+
+/* Layout */
+.section { @apply py-16 md:py-24; }
+.container-narrow { @apply max-w-5xl mx-auto px-4; }
+
+/* Cards sobre oscuro */
+.card { @apply rounded-2xl bg-white/5 backdrop-blur border border-white/10 shadow-sm; }
+
+/* Texto utilitario */
+.text-muted { @apply text-white/70; }
+.text-subtle { @apply text-white/60; }
+
+/* Inputs dark */
+input, textarea, select {
+  @apply bg-white/5 border border-white/15 rounded-xl px-3 py-2 text-white placeholder:text-white/40;
 }
 
-.section {
-  @apply py-16 md:py-24;
-}
-.container-narrow {
-  @apply max-w-5xl mx-auto px-4;
-}
-.card {
-  @apply rounded-2xl shadow-soft bg-white/90 backdrop-blur border border-gray-100 transition-transform;
+/* Accesibilidad */
+::selection { background: #0E76FF; color: #fff; }
+a:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(14,118,255,.5); border-radius: .5rem; }
+
+/* Reduce motion */
+@media (prefers-reduced-motion: reduce){ *{animation:none!important;transition:none!important;} }
+
+/* CountUp */
+@keyframes pop-bounce {0%{transform:scale(1)}40%{transform:scale(1.12)}100%{transform:scale(1)}}
+.pop-finish{animation:pop-bounce 300ms ease-out}
+
+/* Underline/acento títulos */
+.heading-accent{position:relative}
+.heading-accent::after{
+  content:"";position:absolute;left:0;bottom:-8px;width:64px;height:4px;border-radius:9999px;
+  background-image:linear-gradient(to right,#0E76FF,#00CFFF)
 }
 
-/* Selección y foco */
-::selection { background: #CCE5FF; color: #0a0a0a; }
-a:focus-visible { outline: none; box-shadow: 0 0 0 2px rgba(0,123,255,.5); border-radius: .5rem; }
+/* Offsets de ancla (header sticky) */
+:root{--header-h:72px}
+[id]{scroll-margin-top:var(--header-h)}
 
-/* Respeto de reduce motion */
+/* === HERO FX ============================================================ */
+@keyframes float-slow { 0%{transform:translateY(0)} 50%{transform:translateY(-6px)} 100%{transform:translateY(0)} }
+@keyframes drift { 0%{background-position:0 0, 0 0} 100%{background-position:200% 0, -200% 0} }
+@keyframes flow {
+  0%{ background-position: 0 0, 0 0; }
+  100%{ background-position: 1000px 0, -1000px 0; }
+}
+.animate-float-slow { animation: float-slow 6s ease-in-out infinite; }
+.bg-drift-lines {
+  background-image:
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 48px 48px, 48px 48px;
+  animation: flow 24s linear infinite;
+}
+
+/* --- utilidades suaves para tarjetas hero --- */
+.shadow-soft-lg { box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.bg-glass { background: rgba(255,255,255,.06); backdrop-filter: blur(10px); }
+
+/* ===== HERO PRO FX ======================================================= */
+@keyframes float-slow { 0%{transform:translateY(0)} 50%{transform:translateY(-6px)} 100%{transform:translateY(0)} }
+@keyframes border-rotate { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
+@keyframes shine { 0%{transform:translateX(-150%)} 100%{transform:translateX(150%)} }
+
+/* Botón con gradiente + brillo al hover */
+.btn-gradient {
+  background-image: linear-gradient(90deg,#0E76FF, #00CFFF);
+}
+.btn-gradient:hover { filter: brightness(1.05); }
+.btn-shine {
+  position: relative; overflow: hidden;
+}
+.btn-shine::after{
+  content:""; position:absolute; inset:-200% auto -200% -150%;
+  width:120%; transform:skewX(-20deg);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent);
+  animation: shine 1.6s ease-in-out infinite;
+}
+
+/* Tarjeta con borde de gradiente animado (para la imagen) */
+.border-gradient {
+  position: relative; border-radius: 1rem;
+}
+.border-gradient::before{
+  content:""; position:absolute; inset:-2px; border-radius: inherit;
+  background: conic-gradient(from 0deg, #0E76FF, #00CFFF, #0E76FF);
+  filter: blur(6px); opacity:.45;
+  animation: none;
+  z-index: 0;
+}
+.border-gradient > * { position: relative; z-index: 1; }
+
+/* Partículas (respeta reduce-motion) */
+.particles span { position:absolute; display:inline-block; width:6px; height:6px; border-radius:9999px; background:rgba(255,255,255,.35); }
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+  .btn-shine::after, .border-gradient::before { animation:none !important; }
+  .particles span { animation:none !important; }
 }
-
-/* Micro-bounce al completar el contador */
-@keyframes pop-bounce {
-  0% { transform: scale(1); }
-  40% { transform: scale(1.12); }
-  100% { transform: scale(1); }
-}
-.pop-finish { animation: pop-bounce 300ms ease-out; }
-
-/* Línea sutil separadora entre secciones */
-.section-divider {
-  border-top: 1px solid rgba(0,0,0,0.06);
-}
-
-.heading-accent {
-  position: relative;
-}
-.heading-accent::after {
-  content: "";
-  position: absolute;
-  left: 0; bottom: -8px;
-  width: 64px; height: 4px;
-  border-radius: 9999px;
-  background-image: linear-gradient(to right, #007BFF, #00CFFF);
-}
-
-/* === DEBUG VISUAL: si ves esto, el CSS global se está aplicando === */
-body.__bg-test-REMOVED {
-  background: linear-gradient(135deg, #cce5ff 0%, #e6fff9 100%) !important;
-}
-
-/* Card base */
-.card { @apply rounded-2xl shadow-soft bg-white/90 backdrop-blur border border-white/10; }

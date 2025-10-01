@@ -12,7 +12,7 @@ export function Hero() {
       <div className="container-narrow relative">
         <div className="max-w-3xl">
           <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">G&amp;L Refrigeración ❄️</h1>
-          <p className="text-lg md:text-xl text-gray-700 mb-6">
+          <p className="text-lg md:text-xl text-white/80 mb-6">
             Más de 10 años instalando, manteniendo y reparando aires acondicionados y equipos de refrigeración.
           </p>
           <div className="flex flex-wrap gap-2 mb-8">

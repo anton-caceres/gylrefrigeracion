@@ -1,0 +1,30 @@
+<svg width="800" height="600" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0E76FF"/>
+      <stop offset="1" stop-color="#00CFFF"/>
+    </linearGradient>
+  </defs>
+  <rect x="60" y="80" rx="24" ry="24" width="680" height="440" fill="#0f1c2c" stroke="url(#g)" stroke-opacity=".5"/>
+  <!-- aspas de ventilador -->
+  <g transform="translate(260 300)">
+    <circle r="84" fill="none" stroke="url(#g)" stroke-opacity=".6"/>
+    <g fill="url(#g)" fill-opacity=".35">
+      <path d="M0-64C40-64 64-24 64 0S40 64 0 64Z"/>
+      <path d="M0-64C-40-64 -64-24 -64 0S-40 64 0 64Z" transform="rotate(120)"/>
+      <path d="M0-64C-40-64 -64-24 -64 0S-40 64 0 64Z" transform="rotate(240)"/>
+    </g>
+    <circle r="10" fill="url(#g)"/>
+  </g>
+  <!-- líneas/piping -->
+  <path d="M420 180 h220 v240 h-220" fill="none" stroke="url(#g)" stroke-opacity=".5" stroke-width="2"/>
+  <circle cx="420" cy="180" r="6" fill="url(#g)"/>
+  <circle cx="420" cy="420" r="6" fill="url(#g)"/>
+  <!-- placa técnica -->
+  <rect x="500" y="230" width="150" height="90" rx="12" ry="12" fill="#0b1626" stroke="url(#g)" stroke-opacity=".5"/>
+  <g fill="#9fdcff" opacity=".8" font-family="monospace" font-size="12">
+    <text x="512" y="252">BTU: 4500-6500</text>
+    <text x="512" y="272">Rend: A+</text>
+    <text x="512" y="292">Tensión: 220V</text>
+  </g>
+</svg>

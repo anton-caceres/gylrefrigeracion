@@ -59,7 +59,7 @@ export function Contacto() {
             <a className="block card p-6 font-semibold text-primary underline" href={waLink("Hola, necesito presupuesto")} target="_blank" rel="noopener noreferrer">Escribinos por WhatsApp</a>
             <div className="card p-6">
               <div className="font-semibold mb-2">Datos</div>
-              <ul className="text-gray-700 text-sm space-y-1">
+              <ul className="text-white/80 text-sm space-y-1">
                 <li>Tel: +54 0 0000 0000</li>
                 <li>Email: info@gyl.com</li>
                 <li>Dirección: A completar</li>

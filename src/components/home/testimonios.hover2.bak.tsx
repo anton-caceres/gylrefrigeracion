@@ -55,7 +55,7 @@ export function Testimonios() {
                       <div className="font-semibold">{r.name}</div>
                       <RatingStars value={r.rating} />
                     </div>
-                    <p className="text-gray-700">{r.comment}</p>
+                    <p className="text-white/80">{r.comment}</p>
                   </CardContent>
                 </Card>
               ))}

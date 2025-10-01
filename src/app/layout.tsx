@@ -25,9 +25,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="es">
       <body className={`${inter.variable} ${poppins.variable}`}>
         <BackgroundDecor />
+        <a href="#main" className="sr-only focus:not-sr-only fixed left-3 top-3 z-[60] rounded-lg bg-[#0E76FF] px-3 py-2 text-white">Saltar al contenido</a>
         <AnnouncementBar />
         <SiteHeader />
-        <main>{children}</main>
+        <main id="main">{children}</main>
         <SiteFooter />
         <Toaster richColors position="top-right" />
         <script type="application/ld+json" suppressHydrationWarning

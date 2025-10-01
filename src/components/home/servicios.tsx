@@ -1,40 +1,36 @@
-import { Wrench, Fan, Refrigerator, Factory, ShieldCheck } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import MotionReveal from "@/components/motion-reveal";
+import { Card } from "@/components/ui/card";
+import { Wrench, Snowflake, Refrigerator, ShieldCheck, Gauge } from "lucide-react";
 
 const items = [
-  { icon: Fan, title: "Instalación de aires", desc: "Split y centrales. Cálculo de carga térmica." },
-  { icon: Wrench, title: "Mantenimiento", desc: "Preventivo y correctivo. Mejora de rendimiento." },
-  { icon: Refrigerator, title: "Reparación de heladeras", desc: "Familiares y comerciales." },
-  { icon: Factory, title: "Freezers y cámaras", desc: "Servicio técnico especializado." },
-  { icon: ShieldCheck, title: "Certificaciones ERSEP", desc: "Eléctricas aptas para tu seguridad." },
+  { icon: Snowflake,   title: "Instalación de aires",     desc: "Split y centrales. Cálculo de carga térmica." },
+  { icon: Gauge,       title: "Mantenimiento",            desc: "Preventivo y correctivo. Mejora de rendimiento." },
+  { icon: Refrigerator,title: "Reparación de heladeras",  desc: "Familiares y comerciales." },
+  { icon: Wrench,      title: "Freezers y cámaras",       desc: "Servicio técnico especializado." },
+  { icon: ShieldCheck, title: "Certificaciones ERSEP",    desc: "Eléctricas aptas para tu seguridad." },
 ];
 
 export function Servicios() {
   return (
-    <section id="servicios" className="section">
+    <section id="servicios" className="section scroll-mt-28">
       <div className="container-narrow">
-        <MotionReveal>
-          <h2 className="text-3xl font-bold mb-8 heading-accent">Servicios</h2>
-        </MotionReveal>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {items.map(({ icon: Icon, title, desc }, i) => (
-            <MotionReveal key={title} delay={0.05 * i}>
-              <Card className="p-0 transition-transform hover:-translate-y-1">
-                <CardHeader className="p-6">
-                  <CardTitle className="flex items-center gap-3">
-                    <Icon className="h-5 w-5 text-primary" />
-                    {title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="px-6 pb-6">
-                  <p className="text-gray-600">{desc}</p>
-                </CardContent>
-              </Card>
-            </MotionReveal>
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-6">Servicios</h2>
+        <div className="grid gap-5 md:grid-cols-3">
+          {items.map(({ icon: Icon, title, desc }) => (
+            <Card key={title} className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-[#00CFFF] border border-white/15">
+                  <Icon className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">{title}</h3>
+                  <p className="mt-1 text-subtle text-sm">{desc}</p>
+                </div>
+              </div>
+            </Card>
           ))}
         </div>
       </div>
-    </section>
+    <div className="section-divider opacity-10 mx-auto max-w-5xl mt-6"></div>
+</section>
   );
 }

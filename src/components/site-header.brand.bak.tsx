@@ -36,12 +36,12 @@ export function SiteHeader() {
   const linkBase =
     "relative inline-flex items-center gap-1 py-1 transition-transform will-change-transform hover:scale-[1.08] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60";
   const underline =
-    "after:absolute after:-bottom-1 after:left-0 after:h-1.5 after:w-0 after:bg-gradient-to-r after:from-primary after:to-accent after:rounded-full after:transition-all hover:after:w-full";
+    "after:absolute after:-bottom-1 after:left-0 after:h-1.5 after:w-0 after:bg-gradient-to-r after:from-\[\#0E76FF\] after:to-\[\#00CFFF\] after:rounded-full after:transition-all hover:after:w-full";
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-transparent transition-colors",
+        "sticky top-0 z-40 transition-colors",
         scrolled && "border-gray-200"
       )}
     >
