@@ -65,7 +65,7 @@ export function Hero() {
           >
             <h1
               id="hero-title"
-              className="text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-3 md:mb-4 [text-wrap:balance]"
+              className="text-5xl md:text-7xl font-extrabold tracking-tight text-white mb-3 md:mb-4 [text-wrap:balance]"
             >
               G&amp;L Refrigeración
             </h1>
